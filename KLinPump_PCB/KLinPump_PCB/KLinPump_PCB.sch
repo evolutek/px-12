@@ -183,7 +183,7 @@ L Device:C C10
 U 1 1 5FBD4F8F
 P 2950 2950
 F 0 "C10" H 2750 3050 50  0000 L CNN
-F 1 "33µF" H 2750 2850 50  0000 L CNN
+F 1 "22µF" H 2750 2850 50  0000 L CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric" H 2988 2800 50  0001 C CNN
 F 3 "~" H 2950 2950 50  0001 C CNN
 	1    2950 2950
@@ -303,17 +303,6 @@ F 1 "GND" H 4855 1477 50  0000 C CNN
 F 2 "" H 4850 1650 50  0001 C CNN
 F 3 "" H 4850 1650 50  0001 C CNN
 	1    4850 1650
-	1    0    0    -1  
-$EndComp
-$Comp
-L Interface_CAN_LIN:TJA1021TK U1
-U 1 1 5FC0D2E4
-P 6400 1250
-F 0 "U1" H 6700 1750 50  0000 C CNN
-F 1 "TJA1021TK" H 6700 1650 50  0000 C CNN
-F 2 "Package_DFN_QFN:DFN-8-1EP_3x3mm_P0.65mm_EP1.55x2.4mm" H 6400 750 50  0001 C CIN
-F 3 "http://www.nxp.com/documents/data_sheet/TJA1021.pdf" H 6400 1250 50  0001 C CNN
-	1    6400 1250
 	1    0    0    -1  
 $EndComp
 Text GLabel 5900 1150 0    50   Output ~ 0
@@ -816,7 +805,6 @@ Wire Notes Line
 	5350 1900 5350 500 
 Wire Wire Line
 	6400 1650 6500 1650
-Connection ~ 6400 1650
 Wire Notes Line
 	7350 3400 11200 3400
 Wire Notes Line
@@ -910,7 +898,6 @@ Text Notes 5450 700  0    50   ~ 0
 LIN Transceiver
 Wire Wire Line
 	5900 1350 5900 1450
-Connection ~ 5900 1350
 $Comp
 L Device:R R7
 U 1 1 5FDFFF1A
@@ -991,4 +978,17 @@ Text Label 6150 2600 0    50   ~ 0
 P+
 Text Label 6150 2800 0    50   ~ 0
 P-
+$Comp
+L Interface_CAN_LIN:TJA1021TK U?
+U 1 1 5FC1A97C
+P 6400 1250
+F 0 "U?" H 6400 1831 50  0000 C CNN
+F 1 "TJA1021TK" H 6400 1740 50  0000 C CNN
+F 2 "Package_DFN_QFN:DFN-8-1EP_3x3mm_P0.65mm_EP1.55x2.4mm" H 6400 750 50  0001 C CIN
+F 3 "http://www.nxp.com/documents/data_sheet/TJA1021.pdf" H 6400 1250 50  0001 C CNN
+	1    6400 1250
+	1    0    0    -1  
+$EndComp
+Connection ~ 5900 1350
+Connection ~ 6400 1650
 $EndSCHEMATC
