@@ -4,10 +4,10 @@ EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
-Title "KLinPump PCB"
-Date "2020-11-23"
+Title "PX12 Board"
+Date "2020-11-29"
 Rev "V1.0"
-Comp "KLin project"
+Comp "PX12 Project"
 Comment1 ""
 Comment2 ""
 Comment3 ""
