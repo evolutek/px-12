@@ -5,9 +5,9 @@
     {
       "Vendor":      "KiCad",
       "Application": "Pcbnew",
-      "Version":     "(5.1.6)-1"
+      "Version":     "(5.1.8)-1"
     },
-    "CreationDate":  "2020-11-30T19:53:59+01:00"
+    "CreationDate":  "2020-12-07T19:46:07+01:00"
   },
   "GeneralSpecs":
   {
@@ -40,47 +40,47 @@
   "FilesAttributes":
   [
     {
-      "Path":  "PX12_Board-Front.gbr",
+      "Path":  "PX12_Board-Front.gtl",
       "FileFunction":  "Copper,L1,Top",
       "FilePolarity":  "Positive"
     },
     {
-      "Path":  "PX12_Board-Back.gbr",
+      "Path":  "PX12_Board-Back.gbl",
       "FileFunction":  "Copper,L2,Bot",
       "FilePolarity":  "Positive"
     },
     {
-      "Path":  "PX12_Board-F_Paste.gbr",
+      "Path":  "PX12_Board-F_Paste.gtp",
       "FileFunction":  "SolderPaste,Top",
       "FilePolarity":  "Positive"
     },
     {
-      "Path":  "PX12_Board-B_Paste.gbr",
+      "Path":  "PX12_Board-B_Paste.gbp",
       "FileFunction":  "SolderPaste,Bot",
       "FilePolarity":  "Positive"
     },
     {
-      "Path":  "PX12_Board-F_SilkS.gbr",
+      "Path":  "PX12_Board-F_SilkS.gto",
       "FileFunction":  "Legend,Top",
       "FilePolarity":  "Positive"
     },
     {
-      "Path":  "PX12_Board-B_SilkS.gbr",
+      "Path":  "PX12_Board-B_SilkS.gbo",
       "FileFunction":  "Legend,Bot",
       "FilePolarity":  "Positive"
     },
     {
-      "Path":  "PX12_Board-F_Mask.gbr",
+      "Path":  "PX12_Board-F_Mask.gts",
       "FileFunction":  "SolderMask,Top",
       "FilePolarity":  "Negative"
     },
     {
-      "Path":  "PX12_Board-B_Mask.gbr",
+      "Path":  "PX12_Board-B_Mask.gbs",
       "FileFunction":  "SolderMask,Bot",
       "FilePolarity":  "Negative"
     },
     {
-      "Path":  "PX12_Board-Edge_Cuts.gbr",
+      "Path":  "PX12_Board-Edge_Cuts.gm1",
       "FileFunction":  "Profile",
       "FilePolarity":  "Positive"
     }
