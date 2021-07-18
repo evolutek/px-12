@@ -46,8 +46,8 @@ PX12.bin \
 all: PX12.elf secondary-outputs
 
 # Tool invocations
-PX12.elf: $(OBJS) $(USER_OBJS) C:\Users\kmikaz\Documents\Evolutek\PX12\STM32F042G4UX_FLASH.ld
-	arm-none-eabi-gcc -o "PX12.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0 -T"C:\Users\kmikaz\Documents\Evolutek\PX12\STM32F042G4UX_FLASH.ld" --specs=nosys.specs -Wl,-Map="PX12.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+PX12.elf: $(OBJS) $(USER_OBJS) C:\Users\kmikaz\Documents\PX-12\PX12_STM32\STM32F042G4UX_FLASH.ld
+	arm-none-eabi-gcc -o "PX12.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0 -T"C:\Users\kmikaz\Documents\PX-12\PX12_STM32\STM32F042G4UX_FLASH.ld" --specs=nosys.specs -Wl,-Map="PX12.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

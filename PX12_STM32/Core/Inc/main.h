@@ -32,7 +32,7 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "fake_ax12.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
