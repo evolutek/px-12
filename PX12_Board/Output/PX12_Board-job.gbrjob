@@ -7,7 +7,7 @@
       "Application": "Pcbnew",
       "Version":     "(5.1.8)-1"
     },
-    "CreationDate":  "2020-12-07T19:46:07+01:00"
+    "CreationDate":  "2021-07-18T18:57:16+02:00"
   },
   "GeneralSpecs":
   {
@@ -32,7 +32,7 @@
       "PadToPad":  0.090,
       "PadToTrack":  0.090,
       "TrackToTrack":  0.090,
-      "MinLineWidth":  0.150,
+      "MinLineWidth":  0.200,
       "TrackToRegion":  0.254,
       "RegionToRegion":  0.254
     }
@@ -82,6 +82,11 @@
     {
       "Path":  "PX12_Board-Edge_Cuts.gm1",
       "FileFunction":  "Profile",
+      "FilePolarity":  "Positive"
+    },
+    {
+      "Path":  "PX12_Board-F_Fab.gbr",
+      "FileFunction":  "AssemblyDrawing,Top",
       "FilePolarity":  "Positive"
     }
   ],
