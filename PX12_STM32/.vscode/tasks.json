@@ -1,0 +1,103 @@
+{
+	"version": "2.0.0",
+	"tasks":
+	[
+		{
+			"label": "Build project",
+			"group":
+			{
+				"kind": "build",
+				"isDefault": true
+			},
+			"type": "shell",
+			"command": "c:/Users/pierr/.vscode/extensions/buzzyelectronics.stm-helper-1.2.9/BuildTools/bin/make.exe",
+			"args":
+			[
+				"GCC_PATH=c:/Users/pierr/.vscode/extensions/buzzyelectronics.stm-helper-1.2.9/ArmGcc/bin",
+				"-j6"
+			],
+			"problemMatcher":
+			{
+				"pattern":
+				{
+					"regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+					"file": 1,
+					"line": 2,
+					"column": 3,
+					"severity": 4,
+					"message": 5
+				}
+			},
+			"presentation":
+			{
+				"focus": true
+			}
+		},
+		{
+			"label": "Compile current file",
+			"type": "shell",
+			"command": "c:/Users/pierr/.vscode/extensions/buzzyelectronics.stm-helper-1.2.9/ArmGcc/bin/arm-none-eabi-gcc.exe",
+			"args":
+			[
+				"-c",
+				"-DUSE_HAL_DRIVER", 
+				"-DSTM32F042x6",
+
+				"-ICore/Inc", 
+				"-IDrivers/STM32F0xx_HAL_Driver/Inc", 
+				"-IDrivers/STM32F0xx_HAL_Driver/Inc/Legacy", 
+				"-IDrivers/CMSIS/Device/ST/STM32F0xx/Include", 
+				"-IDrivers/CMSIS/Include",
+
+				"-mcpu=cortex-m0",
+				"-mthumb",
+				"-Og",
+				"-Wall",
+				"-fdata-sections",
+				"-ffunction-sections",
+				"-g",
+				"-gdwarf-2",
+				"-MMD",
+				"-MP",
+				"-MF'build/${fileBasenameNoExtension}.d'",
+				"'${relativeFile}'",
+				"-o",
+				"'build/${fileBasenameNoExtension}.o'",
+			],
+			"problemMatcher":
+			{
+				"pattern":
+				{
+					"regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+					"file": 1,
+					"line": 2,
+					"column": 3,
+					"severity": 4,
+					"message": 5
+				}
+			},
+			"presentation":
+			{
+				"focus": true
+			}
+		},
+		{
+			"label": "Download",
+			"type": "shell",
+			"command": "c:/Users/pierr/.vscode/extensions/buzzyelectronics.stm-helper-1.2.9/OpenOCD/bin/openocd.exe",
+			"args":
+			[
+				"-f",
+				"c:/Users/pierr/.vscode/extensions/buzzyelectronics.stm-helper-1.2.9/OpenOCD/scripts/interface/stlink.cfg",
+				"-f",
+				"c:/Users/pierr/.vscode/extensions/buzzyelectronics.stm-helper-1.2.9/OpenOCD/scripts/target/stm32f0x.cfg",
+				"-c",
+				"program build/PX12_STM32.elf",
+				"-c init",
+				"-c reset",
+				"-c exit"
+			],
+			"problemMatcher": []
+		},
+	]
+}
