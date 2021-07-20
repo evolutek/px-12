@@ -4,6 +4,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#include "main.h"
+
 #define DEFAULT_SERVO_ID 10
 #define DEFAULT_BAUDRATE 1
 #define DEFAULT_TORQUE 1
@@ -17,7 +19,7 @@ enum ax12_eeprom_uint8_field {
     voltage_limit_low       = 12,
     voltage_limit_high      = 13,
     status_return_level     = 16,
-    status_return_level     = 17,
+    alarm_led               = 17,
     alarm_shutdown          = 18
 };
 
