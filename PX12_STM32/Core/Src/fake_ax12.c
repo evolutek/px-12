@@ -2,7 +2,7 @@
 
 #include "fake_ax12.h"
 
-#define PARAMETER_LENGTH 64
+#define PARAMETER_LENGTH (64)
 
 struct {
     enum {
@@ -52,9 +52,9 @@ union {
         uint8_t alarm_shutdown;
         uint8_t reserved2;
         uint16_t down_calibration;
-        uint16_t up_calibration;    
+        uint16_t up_calibration;
     } s;
-    char buf[24];
+    uint8_t buf[24];
 } eeprom = {12, 42, DEFAULT_SERVO_ID, DEFAULT_BAUDRATE, 0xFA, 0, 0x3FF, 0,
     0x55, 0x3C, 0xBE, 0x3FF, 0x02, 0x04, 0x04, 0, 0, 0};
 
@@ -207,7 +207,7 @@ void add_byte(uint8_t byte) {
                 command.next_byte = CHECKSUM;
             }
             break;
-    
+
         case CHECKSUM:
             if (byte == ~command.checksum && command.length <= PARAMETER_LENGTH + 2) {
                 process_command();
@@ -216,9 +216,39 @@ void add_byte(uint8_t byte) {
             break;
 
     }
+}
+
+uint8_t read_ax12_eeprom_uint8_field(enum ax12_eeprom_field field)
+{
+    return eeprom.buf[field];
+}
+
+uint16_t read_ax12_eeprom_uint16_field(enum ax12_eeprom_field field)
+{
+    return  (uint16_t)eeprom.buf[field + 1] << 8 | eeprom.buf[field];
+}
+
+uint8_t read_ax12_ram_uint8_field(enum ax12_ram_field field)
+{
+    return eeprom.buf[field];
+}
+
+uint16_t read_ax12_ram_uint16_field(enum ax12_ram_field field)
+{
+    return  (uint16_t)ram.buf[field + 1] << 8 | ram.buf[field];
+}
+
+void write_ax12_ram_uint8_field(enum ax12_ram_field field, uint8_t data)
+{
+    ram.buf[field] = data;
+}
+
+void write_ax12_ram_uint16_field(enum ax12_ram_field field, uint16_t data)
+{
+    ram.buf[field] = (uint8_t)(data & 0xff);
+    ram.buf[field + 1] = (uint8_t)((data & 0xff00) >> 8);
+}
 
 void reset(void) {
     command.next_byte = START1;
-}
-
 }
