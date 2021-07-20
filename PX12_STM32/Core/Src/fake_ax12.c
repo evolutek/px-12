@@ -38,7 +38,7 @@ struct {
     uint8_t pos;
 } static command;
 
-union {
+union _eeprom {
     struct {
         uint16_t model;
         uint8_t version;
@@ -60,8 +60,24 @@ union {
         uint16_t up_calibration;
     } s;
     uint8_t buf[24];
-} static eeprom = {12, 42, DEFAULT_SERVO_ID, DEFAULT_BAUDRATE, 0xFA, 0, 0x3FF, 0,
+} static default_eeprom = {12, 42, DEFAULT_SERVO_ID, DEFAULT_BAUDRATE, 0xFA, 0, 0x3FF, 0,
     0x55, 0x3C, 0xBE, 0x3FF, 0x02, 0x04, 0x04, 0, 0, 0};
+
+static union _eeprom eeprom;
+static uint32_t eeprom_addr;
+
+bool write_eeprom_to_flash(void) {
+    HAL_FLASH_Unlock();
+
+    for (unsigned i = 0; i < 24; ++i) {
+        if (HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, eeprom_addr + i, eeprom.buf[i]) != HAL_OK) {
+            return false;
+        }
+    }
+
+    HAL_FLASH_OB_Lock();
+    return true;
+}
 
 union {
     struct {
@@ -140,8 +156,18 @@ static void write_data(void) {
     }
 
     if (addr + command.length - 0x03 <= sizeof(ram) + sizeof(eeprom)) {
-
+        for (unsigned i = 0; i < command.length - 3; ++i) {
+            if (addr + i < 0x18) {
+                if (!ram.s.lock) {
+                    eeprom.buf[addr + i] = command.parameter[i + 1];
+                }
+            } else {
+                ram.buf[addr + i - 0x18] = command.parameter[i + 1];
+            }
+        }
     }
+
+    write_eeprom_to_flash();
 
     if (command.id == 0xfe) {
         return;
@@ -158,6 +184,29 @@ static void write_data(void) {
 }
 
 void action(void) {
+    uint8_t buf[6];
+    buf[0] = 0xff;
+    buf[1] = 0xff;
+    buf[2] = eeprom.s.id;
+    buf[3] = 0x02;
+    buf[4] = 0x00;
+
+    send_buffer(buf, 6);
+}
+
+void _reset(void) {
+    // TODO : manage RAM
+
+    for (unsigned i = 0; i < 24; ++i) {
+        eeprom.buf[i] = default_eeprom.buf[i];
+    }
+
+    write_eeprom_to_flash();
+
+    if (command.id == 0xfe) {
+        return;
+    }
+
     uint8_t buf[6];
     buf[0] = 0xff;
     buf[1] = 0xff;
@@ -203,7 +252,7 @@ static void process_command(void) {
             break;
 
         case _RESET:
-            // TODO : Usefull ?
+            _reset();
             break;
 
         case SYNC_WRITE:
@@ -301,12 +350,17 @@ void write_ax12_ram_uint16_field(enum ax12_ram_uint16_field field, uint16_t data
     ram.buf[field + 1] = (uint8_t)((data & 0xff00) >> 8);
 }
 
-bool init(UART_HandleTypeDef *_huart) {
+bool init(UART_HandleTypeDef *_huart, uint32_t _eeprom_addr) {
     if (_huart == NULL) {
         return false;
     }
 
+    eeprom_addr = _eeprom_addr;
     huart = _huart;
+
+    for (unsigned i = 0; i < 24; ++i) {
+        eeprom.buf[i] = *(uint8_t *)(eeprom_addr + i);
+    }
 
     // TODO :
     // read flash
