@@ -1,8 +1,12 @@
+#include <stdbool.h>
 #include <stdint.h>
 
 #include "fake_ax12.h"
+#include "main.h"
 
 #define PARAMETER_LENGTH (64)
+
+statis UART_HandleTypeDef *huart = NULL;
 
 struct {
     enum {
@@ -31,7 +35,7 @@ struct {
     uint8_t parameter[PARAMETER_LENGTH];
     uint8_t checksum;
     uint8_t pos;
-} command;
+} static command;
 
 union {
     struct {
@@ -55,7 +59,7 @@ union {
         uint16_t up_calibration;
     } s;
     uint8_t buf[24];
-} eeprom = {12, 42, DEFAULT_SERVO_ID, DEFAULT_BAUDRATE, 0xFA, 0, 0x3FF, 0,
+} static eeprom = {12, 42, DEFAULT_SERVO_ID, DEFAULT_BAUDRATE, 0xFA, 0, 0x3FF, 0,
     0x55, 0x3C, 0xBE, 0x3FF, 0x02, 0x04, 0x04, 0, 0, 0};
 
 union {
@@ -81,8 +85,9 @@ union {
         uint16_t punch;
     } s;
     uint8_t buf[26];
-} ram = {DEFAULT_TORQUE, 0, 0, 0, 0x20, 0x20, 0, 0, 0x3ff,
+} static ram = {DEFAULT_TORQUE, 0, 0, 0, 0x20, 0x20, 0, 0, 0x3ff,
     0, 0, 0, 100, 0, 0, 0, 0, 0, 0x20};
+
 
 static void process_command(void) {
 
@@ -125,6 +130,7 @@ static void process_command(void) {
                     if (addr + i  < 0x18) {
                         if (!ram.s.lock) {
                             eeprom.buf[addr + i] = command.parameter[i + 1];
+                            // TODO : save in flash
                         }
                     } else {
                         ram.buf[addr + i - 0x18] = command.parameter[i + 1];
@@ -218,35 +224,43 @@ void add_byte(uint8_t byte) {
     }
 }
 
-uint8_t read_ax12_eeprom_uint8_field(enum ax12_eeprom_field field)
-{
+uint8_t read_ax12_eeprom_uint8_field(enum ax12_eeprom_field field) {
     return eeprom.buf[field];
 }
 
-uint16_t read_ax12_eeprom_uint16_field(enum ax12_eeprom_field field)
-{
+uint16_t read_ax12_eeprom_uint16_field(enum ax12_eeprom_field field) {
     return  (uint16_t)eeprom.buf[field + 1] << 8 | eeprom.buf[field];
 }
 
-uint8_t read_ax12_ram_uint8_field(enum ax12_ram_field field)
-{
+uint8_t read_ax12_ram_uint8_field(enum ax12_ram_field field) {
     return eeprom.buf[field];
 }
 
-uint16_t read_ax12_ram_uint16_field(enum ax12_ram_field field)
-{
+uint16_t read_ax12_ram_uint16_field(enum ax12_ram_field field) {
     return  (uint16_t)ram.buf[field + 1] << 8 | ram.buf[field];
 }
 
-void write_ax12_ram_uint8_field(enum ax12_ram_field field, uint8_t data)
-{
+void write_ax12_ram_uint8_field(enum ax12_ram_field field, uint8_t data) {
     ram.buf[field] = data;
 }
 
-void write_ax12_ram_uint16_field(enum ax12_ram_field field, uint16_t data)
-{
+void write_ax12_ram_uint16_field(enum ax12_ram_field field, uint16_t data) {
     ram.buf[field] = (uint8_t)(data & 0xff);
     ram.buf[field + 1] = (uint8_t)((data & 0xff00) >> 8);
+}
+
+bool init(UART_HandleTypeDef *_huart) {
+    if (_huart == NULL) {
+        return false;
+    }
+
+    huart = _huart;
+
+    // TODO :
+    // read flash
+    // init huart iiterrupt
+
+    return true;
 }
 
 void reset(void) {

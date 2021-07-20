@@ -1,6 +1,7 @@
 #ifndef FAKE_AX12_H
 #define FAKE_AX12_H
 
+#include <stdbool.h>
 #include <stdint.h>
 
 #define DEFAULT_SERVO_ID 10
@@ -65,6 +66,9 @@ uint16_t read_ax12_ram_uint16_field(enum ax12_ram_uint16_field field);
 void write_ax12_ram_uint8_field(enum ax12_ram_uint8_field field, uint8_t data);
 void write_ax12_ram_uint16_field(enum ax12_ram_uint16_field field, uint16_t data);
 
+bool init(UART_HandleTypeDef *_huart);
+
+// TODO : remove
 void reset(void);
 void add_byte(uint8_t byte);
 
