@@ -69,10 +69,17 @@ static uint32_t eeprom_addr;
 bool write_eeprom_to_flash(void) {
     HAL_FLASH_Unlock();
 
+    uint8_t checksum = 0;
+
     for (unsigned i = 0; i < 24; ++i) {
         if (HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, eeprom_addr + i, eeprom.buf[i]) != HAL_OK) {
             return false;
         }
+        checksum += eeprom.buf[i];
+    }
+
+    if (HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, eeprom_addr + 24, (uint8_t)~checksum) != HAL_OK) {
+        return false;
     }
 
     HAL_FLASH_OB_Lock();
@@ -358,13 +365,23 @@ bool init(UART_HandleTypeDef *_huart, uint32_t _eeprom_addr) {
     eeprom_addr = _eeprom_addr;
     huart = _huart;
 
+    uint8_t checksum = 0;
+
     for (unsigned i = 0; i < 24; ++i) {
         eeprom.buf[i] = *(uint8_t *)(eeprom_addr + i);
+        checksum += eeprom.buf[i];
+    }
+
+    if ((uint8_t)~checksum != *(uint8_t *)(eeprom_addr + 24)) {
+        for (unsigned i = 0; i < 24; ++i) {
+            eeprom.buf[i] = default_eeprom.buf[i];
+        }
+
+        write_eeprom_to_flash();
     }
 
     // TODO :
-    // read flash
-    // init huart iiterrupt
+    // init huart interrupt
 
     return true;
 }
