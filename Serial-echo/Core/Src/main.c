@@ -194,7 +194,9 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
+    HAL_HalfDuplex_EnableTransmitter(&huart1);
     HAL_UART_Transmit(&huart1, buffer, 10, 100);
+    HAL_HalfDuplex_EnableReceiver(&huart1);
     HAL_UART_Receive_IT(&huart1, buffer, 10);
 }/* USER CODE END 4 */
 
