@@ -1,0 +1,50 @@
+{
+	"version": 4,
+	"env":
+	{
+		"_USER_DEF_START_": "",
+		"userDefines": 
+		[
+		],
+		"_USER_DEF_END_": "",
+
+		"_USER_INC_PATHS_START_": "",
+		"userIncPaths": 
+		[
+		],
+		"_USER_INC_PATHS_END_": "",
+
+		"_USER_SRC_PATHS_START_": "",
+		"userSrcPaths": 
+		[
+		],
+		"_USER_SRC_PATHS_END_": ""
+	},
+	"configurations":
+	[
+		{
+			"name": "PX12_STM32",
+			"intelliSenseMode": "gcc-arm",
+			"cStandard": "c99",
+			"cppStandard": "c++17",
+			"compilerPath": "c:/Users/pierr/.vscode/extensions/buzzyelectronics.stm-helper-1.2.9/ArmGcc/bin/arm-none-eabi-gcc.exe",
+			"defines":
+			[
+				"${userDefines}",
+				"USE_HAL_DRIVER", 
+				"STM32F042x6"
+			],
+			"includePath":
+			[
+				"${userIncPaths}",
+				"${workspaceFolder}",
+				"c:/Users/pierr/.vscode/extensions/buzzyelectronics.stm-helper-1.2.9/ArmGcc/lib/gcc/arm-none-eabi/9.2.1/include",
+				"Core/Inc", 
+				"Drivers/STM32F0xx_HAL_Driver/Inc", 
+				"Drivers/STM32F0xx_HAL_Driver/Inc/Legacy", 
+				"Drivers/CMSIS/Device/ST/STM32F0xx/Include", 
+				"Drivers/CMSIS/Include"
+			]
+		}
+	]
+}
